@@ -9,6 +9,11 @@
       "name": "mahavishnu",
       "source": "../mahavishnu",
       "ref": "main"
+    },
+    {
+      "name": "session-buddy",
+      "source": "../session-buddy",
+      "ref": "main"
     }
   ]
 }
