@@ -4,5 +4,11 @@
   "owner": {
     "name": "lesleslie"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "mahavishnu",
+      "source": "../mahavishnu",
+      "ref": "main"
+    }
+  ]
 }
