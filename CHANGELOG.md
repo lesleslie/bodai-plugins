@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-16
+
+### Added
+- `bodai-plugins init <name>` scaffold command — creates plugin directory with `.claude-plugin/plugin.json`, `.mcp.json`, `commands/` dir, and a starter `README.md`. Supports `--force`, `--verbose`, `--path`.
+- `bodai-plugins validate` command — checks plugin structure against the manifest schema; supports `--fix` for safe auto-repair, `--verbose` and `--json` output modes.
+- `bodai-plugins marketplace add --name X --source Y --ref Z` command — registers plugins in the marketplace manifest; rejects duplicates.
+- `scripts/audit_workflow_lifecycle.py` in mahavishnu — CI guard test for paired workflow decisions (in companion repo).
+- CI guard test for the marketplace manifest (`tests/test_marketplace_schema.py`).
+- 5 plugins registered in the initial marketplace: `mahavishnu`, `session-buddy`, `crackerjack`, `akosha`, `dhara`.
+
 ## [0.1.0] - 2026-07-16
 
 ### Added

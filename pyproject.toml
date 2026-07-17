@@ -1,6 +1,6 @@
 [project]
 name = "bodai-plugins"
-version = "0.1.0"
+version = "1.0.0"
 description = "Marketplace scaffolding for Bodai MCP-server Claude Code plugins"
 requires-python = ">=3.13"
 dependencies = [
