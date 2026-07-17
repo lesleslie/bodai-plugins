@@ -30,3 +30,4 @@ claude plugin marketplace add https://github.com/lesleslie/bodai-plugins
 ## Plugins distributed
 
 See `.claude-plugin/marketplace.json` for the canonical list.
+```
