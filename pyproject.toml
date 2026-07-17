@@ -12,6 +12,9 @@ dependencies = [
 [project.scripts]
 bodai-plugins = "bodai_plugins.cli:app"
 
+[project.optional-dependencies]
+dev = ["pytest>=8.3"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
