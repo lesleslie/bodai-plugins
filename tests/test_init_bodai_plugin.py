@@ -40,3 +40,45 @@ def test_scaffold_overwrites_with_force(tmp_path: Path) -> None:
     scaffold_plugin(name="mahavishnu", target=tmp_path)
     plugin_dir = scaffold_plugin(name="mahavishnu", target=tmp_path, force=True)
     assert plugin_dir.is_dir()
+
+
+def test_scaffold_rejects_empty_name(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name="", target=tmp_path)
+
+
+def test_scaffold_rejects_dot_name(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name=".", target=tmp_path)
+
+
+def test_scaffold_rejects_double_dot_name(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name="..", target=tmp_path)
+
+
+def test_scaffold_rejects_absolute_name(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name="/tmp/evil", target=tmp_path)
+
+
+def test_scaffold_rejects_name_with_slash(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name="foo/bar", target=tmp_path)
+
+
+def test_scaffold_rejects_name_with_backslash(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        scaffold_plugin(name="foo\\bar", target=tmp_path)

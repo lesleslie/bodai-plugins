@@ -9,6 +9,26 @@ PLUGIN_MANIFEST_SCHEMA_VERSION = "1.0.0"
 INITIAL_VERSION = "0.1.0"
 
 
+def validate_plugin_name(name: str) -> None:
+    """Validate a plugin name for use as both a manifest identifier and path component.
+
+    The plugin name must equal the MCP server key and the slash-command namespace
+    prefix (three places, one string). Reject any input that could split those
+    three or escape the requested ``target`` directory.
+
+    Raises ValueError if ``name`` is empty, reserved (``.`` or ``..``), an
+    absolute path, or contains a path separator (``/`` or ``\\``).
+    """
+    if not name:
+        raise ValueError("plugin name must not be empty")
+    if name in (".", ".."):
+        raise ValueError(f"plugin name {name!r} is reserved (current-directory or parent)")
+    if Path(name).is_absolute():
+        raise ValueError(f"plugin name {name!r} must not be an absolute path")
+    if "/" in name or "\\" in name:
+        raise ValueError(f"plugin name {name!r} must not contain path separators")
+
+
 def _render_plugin_json(name: str) -> str:
     """Render `.claude-plugin/plugin.json` for a Bodai MCP-server plugin."""
     payload = {
@@ -61,6 +81,7 @@ def scaffold_plugin(
     Returns the plugin directory path.
     Raises FileExistsError if the directory exists and ``force`` is False.
     """
+    validate_plugin_name(name)
     plugin_dir = target / name
     if plugin_dir.exists() and not force:
         raise FileExistsError(f"{plugin_dir} already exists; pass force=True to overwrite")
