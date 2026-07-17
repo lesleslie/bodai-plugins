@@ -117,5 +117,27 @@ def validate(
         raise typer.Exit(code=1)
 
 
+marketplace_app = typer.Typer(help="Manage the marketplace manifest.")
+app.add_typer(marketplace_app, name="marketplace")
+
+
+@marketplace_app.command("add")
+def marketplace_add(
+    name: str = typer.Option(..., "--name", help="Plugin name."),
+    source: str = typer.Option(..., "--source", help="Path or URL to the plugin source."),
+    ref: str = typer.Option("main", "--ref", help="Git ref to pin."),
+    manifest: Path = typer.Option(
+        Path(".claude-plugin/marketplace.json"),
+        "--manifest",
+        help="Path to the marketplace manifest.",
+    ),
+) -> None:
+    """Register a plugin in the marketplace manifest."""
+    from bodai_plugins.scripts.manage_marketplace import add_plugin_entry
+
+    add_plugin_entry(manifest, name=name, source=source, ref=ref)
+    typer.echo(f"added {name} -> {manifest}")
+
+
 if __name__ == "__main__":
     app()
