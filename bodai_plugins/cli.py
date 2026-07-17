@@ -88,7 +88,33 @@ def validate(
     ),
 ) -> None:
     """Validate a plugin or marketplace structure."""
-    typer.echo(f"validate: not yet implemented (would validate {path})")
+    import json
+
+    from bodai_plugins.scripts.validate_bodai_plugin import validate_plugin
+
+    plugin_dir = path if (path / ".claude-plugin").is_dir() else None
+    if plugin_dir is None:
+        typer.echo(f"no plugin manifest found at {path}; pass --path pointing at a plugin directory")
+        raise typer.Exit(code=2)
+
+    issues = validate_plugin(plugin_dir, fix=fix)
+    payload = {
+        "plugin": str(plugin_dir),
+        "issue_count": len(issues),
+        "issues": [{"code": i.code, "message": i.message, "path": str(i.path)} for i in issues],
+    }
+    if json_output:
+        typer.echo(json.dumps(payload, indent=2))
+    else:
+        if not issues:
+            typer.echo(f"OK: {plugin_dir}")
+            return
+        typer.echo(f"{len(issues)} issue(s) in {plugin_dir}:", err=True)
+        for issue in issues:
+            typer.echo(f"  {issue.code}: {issue.message} ({issue.path})", err=True)
+            if verbose:
+                typer.echo(f"    at: {issue.path}", err=True)
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":
