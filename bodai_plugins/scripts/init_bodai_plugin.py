@@ -27,6 +27,8 @@ def validate_plugin_name(name: str) -> None:
         raise ValueError(f"plugin name {name!r} must not be an absolute path")
     if "/" in name or "\\" in name:
         raise ValueError(f"plugin name {name!r} must not contain path separators")
+    if any(ord(c) < 0x20 or c == "\x7f" for c in name):
+        raise ValueError(f"plugin name {name!r} must not contain control characters")
 
 
 def _render_plugin_json(name: str) -> str:

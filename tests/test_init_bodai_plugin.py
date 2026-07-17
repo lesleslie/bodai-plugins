@@ -82,3 +82,10 @@ def test_scaffold_rejects_name_with_backslash(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError):
         scaffold_plugin(name="foo\\bar", target=tmp_path)
+
+
+def test_scaffold_rejects_name_with_control_characters(tmp_path: Path) -> None:
+    import pytest
+
+    with pytest.raises(ValueError, match="control characters"):
+        scaffold_plugin(name="\x00evil", target=tmp_path)
