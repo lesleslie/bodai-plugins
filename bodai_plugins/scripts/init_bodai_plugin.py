@@ -38,7 +38,7 @@ def _render_plugin_json(name: str) -> str:
         "description": f"Bodai plugin for the {name} MCP server.",
         "author": {"name": "Bodai"},
         "keywords": ["bodai", "mcp", name],
-        "mcpServers": f".mcp.json",
+        "mcpServers": ".mcp.json",
     }
     return json.dumps(payload, indent=2) + "\n"
 
@@ -48,7 +48,7 @@ def _render_mcp_json(name: str) -> str:
     payload = {
         name: {
             "type": "http",
-            "url": f"http://localhost:8680/mcp",
+            "url": "http://localhost:8680/mcp",
             "description": f"{name} MCP server (update URL to match this server).",
         }
     }
