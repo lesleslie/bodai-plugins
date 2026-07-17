@@ -24,6 +24,11 @@
       "name": "akosha",
       "source": "../akosha",
       "ref": "main"
+    },
+    {
+      "name": "dhara",
+      "source": "../dhara",
+      "ref": "main"
     }
   ]
 }
