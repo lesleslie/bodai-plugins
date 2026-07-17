@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-07-16
+
+### Fixed
+- Trailing newlines in 7 bootstrap files (pyproject.toml, .gitignore, README.md, CHANGELOG.md, LICENSE, bodai_plugins/__init__.py, tests/test_cli.py).
+- Removed placeholder-free f-strings in `bodai_plugins/scripts/init_bodai_plugin.py` (Ruff F541 compliance).
+
 ## [1.0.0] - 2026-07-16
 
 ### Added
