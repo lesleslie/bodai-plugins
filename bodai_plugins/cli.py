@@ -56,7 +56,10 @@ def init(
     ),
 ) -> None:
     """Scaffold a new plugin directory at PATH."""
-    typer.echo(f"init: not yet implemented (would scaffold {plugin_name} at {path})")
+    from bodai_plugins.scripts.init_bodai_plugin import scaffold_plugin
+
+    plugin_dir = scaffold_plugin(name=plugin_name, target=path, force=force, verbose=verbose)
+    typer.echo(f"scaffolded plugin at {plugin_dir}")
 
 
 @app.command()
