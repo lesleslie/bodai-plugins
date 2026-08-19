@@ -29,6 +29,8 @@
       "name": "dhara",
       "source": "../dhara",
       "ref": "main"
-    }
+    },
+    {"name": "graphics", "source": "../graphics-mcp", "ref": "main"},
+    {"name": "css", "source": "../css-mcp", "ref": "main"}
   ]
 }
