@@ -75,6 +75,7 @@ def validate_plugin(plugin_dir: Path, *, fix: bool = False) -> list[ValidationIs
             issues.append(_issue("MISSING_MCP_JSON", ".mcp.json is missing", mcp_json_path))
 
     data = _read_json(manifest_path)
+    mcp_data = _read_json(mcp_json_path)
     if isinstance(data, dict):
         # 4. required keys
         missing = REQUIRED_MANIFEST_KEYS - set(data.keys())
@@ -87,16 +88,34 @@ def validate_plugin(plugin_dir: Path, *, fix: bool = False) -> list[ValidationIs
                 )
             )
 
-        # 5. name must equal directory basename
+        # 5. manifest name must match a key in .mcp.json
+        # The "one string, three places" rule binds manifest.name to the
+        # .mcp.json server key (and the slash command namespace prefix).
+        # The directory basename is NOT part of the rule -- -mcp repos may
+        # keep their short form (graphics, css) while the directory keeps
+        # the long form (graphics-mcp, css-mcp).
+        # Skip silently when .mcp.json is absent (covered by check 3) or
+        # when it can't be parsed.
+        # .mcp.json has two accepted shapes:
+        #   * standard:  {"mcpServers": {"<name>": {...}}}
+        #   * flat:      {"<name>": {...}}
+        # We accept either -- if the standard wrapper is present we look
+        # at its keys; otherwise we fall back to the top-level keys.
         declared_name = data.get("name")
-        if declared_name and declared_name != plugin_dir.name:
-            issues.append(
-                _issue(
-                    "NAME_MISMATCH",
-                    f"manifest name {declared_name!r} != directory name {plugin_dir.name!r}",
-                    manifest_path,
+        if isinstance(declared_name, str) and isinstance(mcp_data, dict) and mcp_data:
+            if isinstance(mcp_data.get("mcpServers"), dict):
+                keys = list(mcp_data["mcpServers"].keys())
+            else:
+                keys = list(mcp_data.keys())
+            if declared_name not in keys:
+                issues.append(
+                    _issue(
+                        "NAME_MCP_JSON_MISMATCH",
+                        f"manifest name {declared_name!r} not found in .mcp.json "
+                        f"keys {keys!r}",
+                        mcp_json_path,
+                    )
                 )
-            )
 
         # 6. mcpServers file path must exist
         mcp_servers = data.get("mcpServers")
