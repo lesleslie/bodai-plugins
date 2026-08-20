@@ -7,6 +7,15 @@ from pathlib import Path
 
 PLUGIN_MANIFEST_SCHEMA_VERSION = "1.0.0"
 INITIAL_VERSION = "0.1.0"
+# Default MCP server URL. Historically pointed at mahavishnu's port (8680);
+# callers should override for any other plugin via ``--url``.
+DEFAULT_MCP_URL = "http://localhost:8680/mcp"
+# Frontmatter-protect config for mdformat 1.0.0+. Without this, mdformat
+# rewrites the YAML ``---`` delimiters in commands/*.md into long underscore
+# lines, destroying the CLI's ability to parse description, argument-hint,
+# and allowed-tools. See crackerjack's pre-fix commands/*.md for the
+# concrete failure mode.
+MDFORMAT_EXCLUDE_COMMANDS = 'exclude = ["commands/*.md"]\n'
 
 
 def validate_plugin_name(name: str) -> None:
@@ -45,16 +54,30 @@ def _render_plugin_json(name: str) -> str:
     return json.dumps(payload, indent=2) + "\n"
 
 
-def _render_mcp_json(name: str) -> str:
-    """Render `.mcp.json` that wires the plugin's MCP server entry."""
+def _render_mcp_json(name: str, url: str = DEFAULT_MCP_URL) -> str:
+    """Render `.mcp.json` that wires the plugin's MCP server entry.
+
+    ``url`` defaults to ``DEFAULT_MCP_URL`` (mahavishnu's port). Callers
+    should override via ``scaffold_plugin(..., url=...)``.
+    """
     payload = {
         name: {
             "type": "http",
-            "url": "http://localhost:8680/mcp",
+            "url": url,
             "description": f"{name} MCP server (update URL to match this server).",
         }
     }
     return json.dumps(payload, indent=2) + "\n"
+
+
+def _render_mdformat_toml() -> str:
+    """Render `.mdformat.toml` that excludes slash-command frontmatter.
+
+    mdformat 1.0.0+ reads `.mdformat.toml` (not pyproject.toml). The `exclude`
+    list keeps commands/*.md out of formatted paths so the YAML frontmatter
+    stays intact across subsequent mdformat runs.
+    """
+    return MDFORMAT_EXCLUDE_COMMANDS
 
 
 def _render_readme(name: str) -> str:
@@ -75,10 +98,15 @@ def scaffold_plugin(
     name: str,
     target: Path,
     *,
+    url: str = DEFAULT_MCP_URL,
     force: bool = False,
     verbose: bool = False,
 ) -> Path:
     """Scaffold a plugin directory at ``target/<name>/``.
+
+    ``url`` is the MCP server URL written to ``.mcp.json``. Defaults to
+    ``DEFAULT_MCP_URL`` for backwards compatibility; callers should override
+    for any other plugin.
 
     Returns the plugin directory path.
     Raises FileExistsError if the directory exists and ``force`` is False.
@@ -94,7 +122,8 @@ def scaffold_plugin(
 
     files = {
         plugin_dir / ".claude-plugin" / "plugin.json": _render_plugin_json(name),
-        plugin_dir / ".mcp.json": _render_mcp_json(name),
+        plugin_dir / ".mcp.json": _render_mcp_json(name, url=url),
+        plugin_dir / ".mdformat.toml": _render_mdformat_toml(),
         plugin_dir / "README.md": _render_readme(name),
     }
     for path, content in files.items():

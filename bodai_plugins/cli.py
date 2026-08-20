@@ -43,6 +43,11 @@ def init(
         "-p",
         help="Target directory for the scaffold.",
     ),
+    url: str = typer.Option(
+        "http://localhost:8680/mcp",
+        "--url",
+        help="MCP server URL to write to .mcp.json (default: mahavishnu port).",
+    ),
     force: bool = typer.Option(
         False,
         "--force",
@@ -58,7 +63,9 @@ def init(
     """Scaffold a new plugin directory at PATH."""
     from bodai_plugins.scripts.init_bodai_plugin import scaffold_plugin
 
-    plugin_dir = scaffold_plugin(name=plugin_name, target=path, force=force, verbose=verbose)
+    plugin_dir = scaffold_plugin(
+        name=plugin_name, target=path, url=url, force=force, verbose=verbose,
+    )
     typer.echo(f"scaffolded plugin at {plugin_dir}")
 
 
