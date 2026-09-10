@@ -104,6 +104,21 @@
       "name": "excalidraw",
       "source": "../excalidraw-mcp",
       "ref": "main"
+    },
+    {
+      "name": "scapy",
+      "source": "../scapy-mcp",
+      "ref": "main"
+    },
+    {
+      "name": "archive-org",
+      "source": "../archive-org-mcp",
+      "ref": "main"
+    },
+    {
+      "name": "medium",
+      "source": "../medium-mcp",
+      "ref": "main"
     }
   ]
 }
