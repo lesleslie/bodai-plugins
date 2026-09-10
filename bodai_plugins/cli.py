@@ -146,5 +146,75 @@ def marketplace_add(
     typer.echo(f"added {name} -> {manifest}")
 
 
+@marketplace_app.command("validate")
+def marketplace_validate(
+    manifest: Path = typer.Option(
+        Path(".claude-plugin/marketplace.json"),
+        "--manifest",
+        help="Path to the marketplace manifest (default: ./marketplace.json).",
+    ),
+    cache: Path = typer.Option(
+        Path.home() / ".claude" / "skills" / ".installer-cache.json",
+        "--cache",
+        help="Output installer cache path.",
+    ),
+    plugin_root: Path = typer.Option(
+        Path("."),
+        "--plugin-root",
+        help="Root directory under which plugin sources are resolved.",
+    ),
+    commit_message: str | None = typer.Option(
+        None,
+        "--commit-message",
+        help="If set, commit the marketplace manifest atomically after the cache write (P-10).",
+    ),
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Emit JSON output instead of a human-readable summary.",
+    ),
+) -> None:
+    """Walk every plugin's commands/skills/agents dirs and update the installer cache.
+
+    Phase 5 plan §5 task #1, #5, #7. Atomicity per plan §10.7 P-10:
+
+    - Filesystem write to ``cache`` is atomic (.tmp -> rename).
+    - Concurrency guarded by ``fcntl`` lock on adjacent
+      ``.installer-cache.lock`` (F-7).
+    - When ``--commit-message`` is set, the marketplace manifest is
+      git-committed atomically (no success without the commit).
+    """
+    from bodai_plugins.scripts.validate_marketplace import run_validate
+
+    try:
+        result = run_validate(
+            manifest_path=manifest,
+            cache_path=cache,
+            plugin_root=plugin_root,
+            commit_message=commit_message,
+            workdir=manifest.parent,
+        )
+    except RuntimeError as exc:
+        if json_output:
+            import json as _json
+
+            typer.echo(_json.dumps({"error": str(exc)}, indent=2))
+        else:
+            typer.echo(f"validate failed: {exc}", err=True)
+        raise typer.Exit(code=1)
+
+    if json_output:
+        import json as _json
+
+        typer.echo(_json.dumps(result, indent=2))
+    else:
+        typer.echo(
+            f"validated {result['plugins']} plugin(s): "
+            f"{result['skills']} skill(s), {result['agents']} agent(s)\n"
+            f"  cache: {result['cache_path']}\n"
+            f"  git_commit: {result['git_commit'] or '(none — not a git repo)'}"
+        )
+
+
 if __name__ == "__main__":
     app()
