@@ -1,6 +1,6 @@
 # Bodai Plugins — Port Map
 
-Authoritative port assignments for the Bodai ecosystem. Covers core Bodai components (orchestrator, memory, intelligence, quality, state) and the WWW MCP server fleet. Excludes `fastblocks` and `splashstand` per the documented scope of `bodai-plugins`.
+Authoritative port assignments for Bodai-maintained plugins (the orchestrator, memory, intelligence, and quality components) and the WWW MCP server fleet registered alongside them. Excludes `fastblocks` and `splashstand` per the documented scope of `bodai-plugins`. Excludes Dhara's `durus` storage server (`8685`) now that the Dhara MCP server has been retired; the durus library documents its port in its own configuration.
 
 This map is the canonical reference for plugin install commands and runtime health probes. Where it disagrees with a per-component `settings/<name>.yaml` or `pyproject.toml`, **update this map** — it's easier to grep one file than fifteen.
 
@@ -15,7 +15,6 @@ This map is the canonical reference for plugin install commands and runtime heal
 | 8678 | Session-Buddy |
 | 8680 | Mahavishnu |
 | 8682 | Akosha |
-| 8683 | Dhara |
 | 8686 | Crackerjack test WebSocket |
 | 8690 | Mahavishnu WebSocket |
 | 8691 | Mahavishnu pool WebSocket |
@@ -36,7 +35,6 @@ The orchestrator ecosystem. The five with **✓ Plugin** are also registered in 
 | Session-Buddy | 8678 | ✓ Plugin | Memory & reflection MCP server |
 | Mahavishnu | 8680 | ✓ Plugin | Orchestrator |
 | Akosha | 8682 | ✓ Plugin | Cross-system intelligence (seer) |
-| Dhara | 8683 | ✓ Plugin | Persistent state curator |
 | Crackerjack test WS | 8686 | — | Crackerjack test execution WebSocket |
 | Mahavishnu WS | 8690 | — | Real-time workflow events |
 | Mahavishnu pool WS | 8691 | — | Pool status events |
