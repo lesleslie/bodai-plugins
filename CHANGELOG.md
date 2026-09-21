@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Migrated the 18 WWW `*-mcp` plugins out of this marketplace to the new [www-mcp-servers marketplace](https://github.com/lesleslie/www-mcp-servers). The `*-mcp` integration servers are independent packages, not core bodai components, so they belong in the catalog that maintains them.
+- Removed `dhara` from this marketplace. Dhara is no longer a bodai-core component and is now a standalone entity managed outside this plugin registry.
+- Added `oneiric` back to this marketplace. Oneiric's FastMCP server has been re-introduced (14 tools, default port 8681) and is part of the core bodai control plane alongside mahavishnu, session-buddy, crackerjack, and akosha.
+- Documented the "core bodai components only" scope in the README. Future `*-mcp` plugins go in `www-mcp-servers`; only control-plane bodai components belong here.
+
 ## [1.0.1] - 2026-07-16
 
 ### Fixed
