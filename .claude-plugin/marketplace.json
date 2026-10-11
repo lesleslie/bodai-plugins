@@ -11,7 +11,7 @@
         "source": "github",
         "repo": "lesleslie/mahavishnu"
       },
-      "ref": "main"
+      "ref": "v0.34.1"
     },
     {
       "name": "session-buddy",
@@ -19,7 +19,7 @@
         "source": "github",
         "repo": "lesleslie/session-buddy"
       },
-      "ref": "main"
+      "ref": "v0.33.1"
     },
     {
       "name": "crackerjack",
@@ -27,7 +27,7 @@
         "source": "github",
         "repo": "lesleslie/crackerjack"
       },
-      "ref": "main"
+      "ref": "v0.87.1"
     },
     {
       "name": "akosha",
@@ -35,7 +35,7 @@
         "source": "github",
         "repo": "lesleslie/akosha"
       },
-      "ref": "main"
+      "ref": "v0.23.1"
     },
     {
       "name": "oneiric",
@@ -43,7 +43,7 @@
         "source": "github",
         "repo": "lesleslie/oneiric"
       },
-      "ref": "main"
+      "ref": "v0.28.0"
     }
   ]
 }
