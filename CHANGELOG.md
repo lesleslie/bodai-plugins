@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Bumped `mahavishnu` plugin ref to `v0.34.2`. The v0.34.2 tag archives the 9 obsolete coverage-fanout decision records and 5 paired `.js` workflows that were surfacing in `/plugin` as never-used project skills (crackerjack waves 1–7 + mahavishnu waves 1–2).
 - Migrated the 18 WWW `*-mcp` plugins out of this marketplace to the new [www-mcp-servers marketplace](https://github.com/lesleslie/www-mcp-servers). The `*-mcp` integration servers are independent packages, not core bodai components, so they belong in the catalog that maintains them.
 - Removed `dhara` from this marketplace. Dhara is no longer a bodai-core component and is now a standalone entity managed outside this plugin registry.
 - Added `oneiric` back to this marketplace. Oneiric's FastMCP server has been re-introduced (14 tools, default port 8681) and is part of the core bodai control plane alongside mahavishnu, session-buddy, crackerjack, and akosha.
