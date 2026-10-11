@@ -7,27 +7,42 @@
   "plugins": [
     {
       "name": "mahavishnu",
-      "source": "../mahavishnu",
+      "source": {
+        "source": "github",
+        "repo": "lesleslie/mahavishnu"
+      },
       "ref": "main"
     },
     {
       "name": "session-buddy",
-      "source": "../session-buddy",
+      "source": {
+        "source": "github",
+        "repo": "lesleslie/session-buddy"
+      },
       "ref": "main"
     },
     {
       "name": "crackerjack",
-      "source": "../crackerjack",
+      "source": {
+        "source": "github",
+        "repo": "lesleslie/crackerjack"
+      },
       "ref": "main"
     },
     {
       "name": "akosha",
-      "source": "../akosha",
+      "source": {
+        "source": "github",
+        "repo": "lesleslie/akosha"
+      },
       "ref": "main"
     },
     {
       "name": "oneiric",
-      "source": "../oneiric",
+      "source": {
+        "source": "github",
+        "repo": "lesleslie/oneiric"
+      },
       "ref": "main"
     }
   ]
